@@ -1,0 +1,356 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+{% endblock title %}
+
+{% block style %}
+<style>
+
+  .sys {
+    max-width: 1440px;
+    margin: auto;
+  }
+
+  .product {
+    border: 0.5px solid lightgray;
+    min-width: 200px;
+  }
+
+  .text {
+    padding: 5px 15px;
+  }
+
+  .image_cat {
+    height: 300px;
+  }
+
+  .image {
+    height: 200px;
+  }
+
+  .p_card {
+    padding: 10px 3px;
+  }
+
+  .cate {
+    width: fit-content;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+  }
+
+  .name {
+    color:black ;
+    font-family: sans-serif;
+  }
+
+  .cate_img img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+  }
+
+  .cate:hover {
+    box-shadow: none;
+
+  }
+  .pr_type{
+    transition: all ease-in-out 0.2s;
+    
+  }
+  .pr_type:hover{
+    box-shadow: -5px 5px 5px lightgrey;
+  }
+
+  @media only screen and (max-width: 500px) {
+    .image_cat {
+      height: 200px;
+    }
+
+    .cate_img img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+  }
+</style>
+{% endblock style %}
+
+
+
+
+
+<!-- brand name and logos which sales on this app -->
+
+{% block body %}
+
+
+<!-- body home craousel for new and trending porductsl  -->
+
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      {% for poster in posters %}
+      <img src="/media/{{poster.poster}}" class="d-block w-100" alt="..."
+        style="width: 100%; min-height: 170px; object-fit:cover;">
+    </div>
+    {% if not forloop.last %}
+    <div class="carousel-item">
+      {% endif %}
+
+      {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+
+
+  <!-- category poster for data -->
+<div class="sys" style="padding: 0px;">
+  <div class="categorys card-body">
+    <div class="heading">
+      <h3>Filter By Category</h3>
+    </div>
+    <div class="row" style="justify-content: space-between; align-items: center;">
+      {% for cat in category %}
+      <a href="/category/{{cat.category}}" class="cate col-4 col-md-1">
+        <div class="cate_img">
+          <img src="/media/{{cat.poster}}" alt="">
+        </div>
+        <div class="name">
+          {{cat.category|upper}}
+        </div>
+      </a>
+      {% endfor %}
+
+
+    </div>
+
+  </div>
+</div>
+
+
+  <!-- brans poster -->
+  <div class="sys " style="">
+    <div class="" style="padding: 0px;">
+      <div class="card-body">
+        <h5 class="card-title   " style="font-family: sans-serif;">SHOP BY BRAND'S</h5>
+        <div class="row my-4" style="margin: auto; justify-content: space-around; align-items: center;">
+          {% for brand in brands %}
+          <a href="/brands/{{brand.name}}" class=" col-4  col-lg-2">
+            <img src="/media/{{brand.image}}" alt="" srcset="" style="background-size: cover;width: 100%;">
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- shop with category -->
+
+    <div class="sys my-1 mx-3">
+      <div class="heading">
+        <h1 class="display-5">Wide Range Of Product's</h1>
+      </div>
+      <div class="row" style="justify-content: space-around; align-items: baseline; ">
+        {% for pro in pro_type %}
+        <div class=" col-sm-3 col-6 my-4 pr_type" style="padding:0px;">
+          <div class="  card   mx-1 rounded ">
+            {% load static %}
+            <div class="image_cat"
+              style="padding-top: 10px; width: 100%; ; background-image: url(/media/{{pro.poster}}); background-size:cover;">
+              <div
+                style="height: 30%; width: 100%; position: relative; top: 71%; background: linear-gradient(to top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);">
+              </div>
+            </div>
+            <div class="card-body" style="font-family: sans-serif; text-align: center; border: 2px solid white; ">
+              <a href="/product_type/{{pro.title}}"
+                style="text-decoration: none; color: black; font-weight: bold;">{{pro.title}}</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+    <div class="sys my-1 mx-3">
+      <div class="heading">
+        <h1 class="display-5">Trending On GMFashion</h1>
+      </div>
+      <div class="sys" style="overflow-x: scroll;  display: flex;">
+        {% for pro in products %}
+
+        {% if pro.trending == True %}
+        <div class=" p_card ">
+          <div href="/product/{{pro.title}}" id="url_{{pro.sno}}" style="text-decoration: none; color: black;">
+            <div class="product">
+              <div class="image">
+                <img src='/media/{{pro.poster}}' alt="" class="img-fluid" id="img_{{pro.sno}}"
+                  style="width: 100%; height: 100%;">
+              </div>
+              <div class="text">
+                <div class="d-flex" style="justify-content: space-between; align-items: center;">
+                  <span class="display-7" id="com_{{pro.sno}}">{{pro.company}}</span>
+                  <button class="btn add_fav" id={{pro.sno}}><i class="far fa-heart"></i></button>
+                </div>
+                <a href="/product/{{pro.title}}" id="url_{{pro.sno}}">
+                  <span id="title_{{pro.sno}}">{{pro.title}}</span> <br></a>
+                <div class="price" style="font-weight: bolder; font-size: small;">
+                  <span>$</span> <span style="font-size: larger;" id="price_{{pro.sno}}">{{pro.price}}</span> <span
+                    class="mx-1" style="font-weight: lighter; color: gray;"><del
+                      id="mrp_{{pro.sno}}">${{pro.mrp}}</del></span>
+                  <span style="color: green;" id="off_{{pro.sno}}">{{pro.off}}% off</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+
+        {% endfor %}
+
+
+      </div>
+
+    </div>
+
+
+
+    <div class="sys my-5 mx-3">
+      <div class="heading">
+        <h1 class="display-5">Best Deal's On Jeans</h1>
+      </div>
+      <div class="sys" style="overflow-x: scroll;  display: flex;">
+        <div class=" p_card ">
+          <a href="/product" style="text-decoration: none; color: black;">
+            <div class="product">
+              <div class="image">
+                <img src="{% static 'images/t_shirts.jpg' %}" alt="" class="img-fluid"
+                  style="width: 100%; height: 100%;">
+              </div>
+              <div class="text">
+                <div class="d-flex" style="justify-content: space-between; align-items: center;">
+                  <span class="display-7">LEVIS</span>
+                  <button class="btn"><i class="far fa-heart"></i></button>
+                </div>
+                <span>skinny-jeans mens</span> <br>
+                <div class="price" style="font-weight: bolder; font-size: small;">
+                  <span>$</span> <span style="font-size: larger;">778</span> <span class="mx-1"
+                    style="font-weight: lighter; color: gray;"><del>$
+                      1000</del></span>
+                  <span style="color: green;">30% off</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class=" p_card ">
+          <a href="/product" style="text-decoration: none; color: black;">
+            <div class="product">
+              <div class="image">
+                <img src="{% static 'images/t_shirts.jpg' %}" alt="" class="img-fluid"
+                  style="width: 100%; height: 100%;">
+              </div>
+              <div class="text">
+                <div class="d-flex" style="justify-content: space-between; align-items: center;">
+                  <span class="display-7">LEVIS</span>
+                  <button class="btn"><i class="far fa-heart"></i></button>
+                </div>
+                <span>skinny-jeans mens</span> <br>
+                <div class="price" style="font-weight: bolder; font-size: small;">
+                  <span>$</span> <span style="font-size: larger;">778</span> <span class="mx-1"
+                    style="font-weight: lighter; color: gray;"><del>$
+                      1000</del></span>
+                  <span style="color: green;">30% off</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class=" p_card ">
+          <a href="/product" style="text-decoration: none; color: black;">
+            <div class="product">
+              <div class="image">
+                <img src="{% static 'images/t_shirts.jpg' %}" alt="" class="img-fluid"
+                  style="width: 100%; height: 100%;">
+              </div>
+              <div class="text">
+                <div class="d-flex" style="justify-content: space-between; align-items: center;">
+                  <span class="display-7">LEVIS</span>
+                  <button class="btn"><i class="far fa-heart"></i></button>
+                </div>
+                <span>skinny-jeans mens</span> <br>
+                <div class="price" style="font-weight: bolder; font-size: small;">
+                  <span>$</span> <span style="font-size: larger;">778</span> <span class="mx-1"
+                    style="font-weight: lighter; color: gray;"><del>$
+                      1000</del></span>
+                  <span style="color: green;">30% off</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class=" p_card ">
+          <a href="/product" style="text-decoration: none; color: black;">
+            <div class="product">
+              <div class="image">
+                <img src="{% static 'images/t_shirts.jpg' %}" alt="" class="img-fluid"
+                  style="width: 100%; height: 100%;">
+              </div>
+              <div class="text">
+                <div class="d-flex" style="justify-content: space-between; align-items: center;">
+                  <span class="display-7">LEVIS</span>
+                  <button class="btn"><i class="far fa-heart"></i></button>
+                </div>
+                <span>skinny-jeans mens</span> <br>
+                <div class="price" style="font-weight: bolder; font-size: small;">
+                  <span>$</span> <span style="font-size: larger;">778</span> <span class="mx-1"
+                    style="font-weight: lighter; color: gray;"><del>$
+                      1000</del></span>
+                  <span style="color: green;">30% off</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    {% endblock body %}
+
+
+    {% block js %}
+
+    <script>
+
+
+    </script>
+
+
+
+
+
+
+    {% endblock js %}

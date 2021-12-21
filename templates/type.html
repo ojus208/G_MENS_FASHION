@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+category
+{% endblock title %}
+
+
+{% block style %}
+<style>
+ 
+  .product {
+    border: 0.5px solid lightgray;
+      }
+
+
+  .results {
+    padding: 10px 0px;
+    max-width: 1300px;
+    margin: auto;
+  }
+
+  .image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .p_card {
+    padding: 10px 3px;
+  }
+
+  .text {
+    padding: 5px 15px;
+  }
+
+
+
+  .pos {
+    height: 400px;
+    width: 100%;
+    filter: blur(8px);
+    -webkit-filter: blur(4px);
+  }
+
+  .text_img {
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    font-weight: bold;
+    border: 3px solid #f1f1f1;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 80%;
+    padding: 20px;
+    text-align: center;
+    font-size: 40px;
+  }
+
+  @media only screen and (max-width: 500px) {
+    .pos {
+      height: 200px;
+    }
+
+    .text_img {
+      font-size: 30px;
+      top: 20%;
+    }
+  }
+</style>
+{% endblock style %}
+
+{% block body %}
+
+{% if category.poster %}
+
+<div class="oth_cat" style="width: 100%;">
+  <!-- main category pngimagesfre -->
+  <div class="poster">
+  <div class="pos img-fluid" style="
+       background: url(/media/{{category.poster}}) no-repeat center center;
+       background-size:cover;
+      ">
+  </div>
+  <div style="
+      " class="text_img">
+    <p> {{category.title}} </p>
+  </div>
+</div>
+{% endif %}
+
+
+{% if category.image %}
+<div>
+<img src="/media/{{category.image}}" alt="image" class="img-fluid">
+</div>
+{% endif %}
+
+  <div class="results row" style="justify-content:flex-start;" >
+
+    {% for pro in products %}
+    <div class=" p_card col-6 col-md-4 col-lg-3 ">
+          <div href="/product/{{pro.title}}" id="url_{{pro.sno}}" style="text-decoration: none; color: black;">
+            <div class="product">
+              <div class="image">
+                <img src='/media/{{pro.image}}' alt="" class="img-fluid" id="img_{{pro.sno}}"
+                  style="width: 100%; height: 100%;">
+              </div>
+              <div class="text">
+                <div class="d-flex" style="justify-content: space-between; align-items: center;">
+                  <span class="display-7" id="com_{{pro.sno}}" >{{pro.company}}</span>
+                  <button class="btn add_fav" id={{pro.sno}} ><i class="far fa-heart"></i></button>
+                </div>
+                <a href="/product/{{pro.title}}" id="url_{{pro.sno}}" >
+                <span  id="title_{{pro.sno}}" >{{pro.title}}</span> <br></a>
+                <div class="price" style="font-weight: bolder; font-size: small;">
+                  <span>$</span> <span style="font-size: larger;" id="price_{{pro.sno}}" >{{pro.price}}</span> <span class="mx-1"
+                    style="font-weight: lighter; color: gray;"><del id="mrp_{{pro.sno}}" >${{pro.mrp}}</del></span>
+                  <span style="color: green;" id="off_{{pro.sno}}"  >{{pro.off}}% off</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+{% endblock body %}
+
+
+
+{% block js %}
+
+<script>
+  $(document).ready(function () {
+
+    if ($(window).width() <= 500) {
+      $("#hide_side").hide()
+
+    }
+
+    $("#hide").click(function () {
+      $("#hide_side").toggle()
+
+    })
+
+  })
+
+
+</script>
+
+
+
+
+{% endblock js %}

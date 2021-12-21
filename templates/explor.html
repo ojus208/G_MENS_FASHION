@@ -1,0 +1,188 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- link CSS -->
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>Hello, world!</title>
+    <style>
+        a{
+            text-decoration: none;
+            color: black;
+        }
+         .nav-new a{
+           margin: 0px 5px;
+        }
+
+        .form_mob {
+
+            flex-grow: 1;
+            flex-shrink: 1;
+            margin: 0px 10px;
+        }
+        .image_cat {
+    height: 300px;
+  }
+
+  .image {
+    height: 200px;
+  }
+
+  .p_card {
+    padding: 10px 3px;
+  }
+
+  .cate {
+    width: fit-content;
+    box-shadow: -5px 5px 5px lightgrey;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    margin: 10px 10px;
+    font-weight: bold;
+    transition: all ease-in-out 0.5s;
+  }
+
+
+  .cate_img img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+  }
+
+  .cate:hover {
+    box-shadow: none;
+
+  }
+        .result{
+            transition: all 0.1s;
+            background-color: whitesmoke;
+    min-width: 110px;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0px 9px 4px lightgrey;
+        }
+
+        .result:hover{
+            box-shadow: 0px 0px 0px lightgray;
+        }
+
+        @media only screen and (max-width: 500px) {
+            .nav-new a{
+                margin: 0px;
+            }
+            .image_cat {
+      height: 200px;
+    }
+
+    .cate_img img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+        }
+        @media only screen and (max-width: 390px) {
+            .form_mob input{
+                width: 197px;
+            }
+        }
+        .sys{
+            padding: 20px;
+            max-width: 1300px;
+        }
+    </style>
+  </head>
+  <body>
+    
+        <nav class="navbar navbar-light bg-light sticky-top">
+            <a href="#" class="navbar-brand " style="margin: auto 20px;"><i class="fa fa-arrow-left"></i></a>
+            <form class="d-flex form_mob" action="/search/" method="get">
+                <input class="form-control me-2 search_mob" type="search" name="query" placeholder="Search The Latest Product...." aria-label="Search" style="border: none; border-bottom: 1px solid lightgray; border-radius: 0px; outline: none;">
+                <button class="btn btn-outline-success btn_mob" type="submit"><i class="fa fa-search"></i></button>
+              </form>
+            </nav>
+
+
+
+
+
+
+
+    <div class="recent_search sys rounded" style="border-bottom: 1px solid lightcoral ; margin: auto;">
+        <div class="heading my-3">
+           <h1 class="display-6" style="font-family: cursive">Your Recent Search's</h1>
+        </div>
+        <div class="recent_result d-flex" style="overflow-x: scroll;">
+            <div class=" rounded d-flex p-2 " style=" min-width: 110px; align-items: center; flex-direction: column;" >
+                <div class="image_recent">
+                    {% load static %}
+                    <img src="{% static 'images/denim_shirt_1.jpg' %}"  alt="img" class="img-fluid" style="width: 100px; height: 100px; border-radius: 50%;">
+                </div>
+                <div class="searh_query my-3">
+                    denim shirts
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="popular sys d-flex my-2" style="overflow-x: scroll; margin: auto; height: 350px; background: url(https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/2017/10/13/11507889383084-banner_rack_16.png); background-size: cover;">
+        <div class="pop_about" style="width: 200px; height: 100%; padding: 20px; color: white; display: flex;
+        flex-direction: column; align-items: flex-start; justify-content: center;">
+            <p>Check Now</p>
+            <p class="display-5" >The Best Arriaval</p>
+        </div>
+        <div class="pop rounded bg-light " style="min-width: 200px; margin: 0px 5px;">
+            <div class="image" style="min-width: 200px; " >
+                {% load static %}
+                <img src="{% static 'images/denim.jpg' %}" class="img-fluid" alt="img" style="width: 200px; height: 250px;">
+            </div>
+            <div class="text card-body">
+                Best In Denim Clothes
+            </div>
+        </div>
+        <div class="pop rounded bg-light  " style="min-width: 200px; margin: 0px 5px;">
+            <div class="image" >
+                {% load static %}
+                <img src="{% static 'images/denim.jpg' %}" class="img-fluid" alt="img" style="width: 200px; height: 250px;">
+            </div>
+            <div class="text card-body">
+                Best In Denim Clothes
+            </div>
+        </div>
+        
+
+        
+    </div>
+    <div class="sys">
+
+    
+        <div class="heading my-3">
+            <h1 class="display-6" style="font-family: cursive">Search By Category</h1>
+         </div>
+         <div class="row" style="margin: auto; justify-content: flex-start; align-items: center;" >
+            {% for cat in category %}
+            <a href="/category/{{cat.category}}" class="cate col-4 col-md-2">
+              <div class="cate_img">
+                <img src="/media/{{cat.poster}}" alt="">
+              </div>
+              <div class="name">
+                {{cat.category | title}}
+              </div>
+            </a>
+            {% endfor %}
+    </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  </body>
+</html>

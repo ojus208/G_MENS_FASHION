@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+
+
+
+{% block title %}
+product page
+{% endblock title %}
+
+
+{% block style %}
+<style>
+    .product {
+        display: flex;
+        flex-direction: column;
+        min-width: 200px;
+        max-height: 400px;
+        margin: 10px 10px 10px 10px;
+        justify-content: flex-end;
+    }
+
+    .p_card {
+        min-width: 200px;
+    }
+    .p_img{
+        position: sticky;
+        top: 80px;
+        height: fit-content;
+    }
+
+    .product img {
+        max-height: 190px;
+    }
+
+    .cont {
+        overflow-y: hidden;
+        overflow-x: scroll;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    @media only screen and (max-width: 700px) {
+        .containar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .product {
+            min-width: 130px
+        }
+
+        body {
+            font-size: small;
+        }
+
+        button {
+            font-size: small;
+        }
+    }
+
+    .p_detail {
+        margin: auto;
+    }
+
+    .p_img img {
+        width: 100%;
+        
+    }
+    li{
+        list-style-type: none;
+    }
+    .desc_head{
+        font-size: large;
+    }
+
+    @media only screen and (max-width: 700px) {
+        .containar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .product {
+            min-width: 130px
+        }
+
+        .add_whish{
+            position: sticky;
+            bottom: 0px;
+            
+        }
+        .add_whish button{
+            font-size: large;
+        }
+        .p_img{
+            position:relative;
+            top: 0px;
+        }
+    }
+</style>
+{% endblock style %}
+
+
+{% block body %}
+<div style="background-color: whitesmoke;">
+    <div class="row pr"
+        style=" max-width:1300px; margin:auto; padding: 10px 10px; justify-content: space-between; background-color: whitesmoke; ">
+        <div class="p_img d-flex   col-12 col-md-5 ">
+
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-interval="false"
+                style="width: 100%;">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        {% for poster in images %}
+                        <img src="/media/{{poster.image}}" class="d-block w-100" alt="..."
+                            style="width: 100%; min-height: 170px; object-fit:cover;">
+                    </div>
+                    {% if not forloop.last %}
+                    <div class="carousel-item">
+                        {% endif %}
+
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="p_detail col-12 col-md-7 " style="background-color: whitesmoke; padding: 0px; height: 100%;">
+                <div class="d_basic my-3 px-4 py-4 " style="background-color: white;">
+                    <h2>{{product.subtitle|upper}}</h2>
+                    <span style="color: green;">BY BRAND: {{product.company|upper}}</span><br>
+                    <span><span style="font-weight: bolder; font-size: larger; color: green;">&#8377 {{product.price}}
+                        </span></span>
+                    <span><del style="color: gray; font-weight: lighter; font-size: medium;">
+                            M.R.P{{product.mrp}}</del></span>
+                    <span><span style="font-weight: bolder; font-size: medium; "> &#8377 {{product.off}}
+                            off</span></span><br>
+                    <p>inclusive of all taxes</p>
+                </div>
+
+                <div class="size my-3 px-4 py-4 " style="background-color: white;">
+                    <h3>Choose Size</h3>
+                    <div class="sizes">
+                        <button class="btn btn-outline-dark" style="border-radius: 300px;">X</button>
+                    </div>
+                </div>
+
+                <div class="product_description my-3" style="background-color:white;">
+                        <ul class="">
+                            <li class="">
+                                <header class="">
+                                    <p class="desc_head">Product Details</p>
+                                </header>
+                                <p class="">White solid sweatshirt, has a hood, two pockets, long sleeves,
+                                    zip closure, straight ribbed hem</p>
+                            </li>
+                            <li class="">
+                                <header class="">
+                                    <p class="desc_head">Model Size &amp; Fit</p>
+                                </header>
+                                <p class="">The model (height 6') is wearing a size M</p>
+                            </li>
+                            <li class="">
+                                <header class="">
+                                    <p class="desc_head">Material &amp; Care</p>
+                                </header>
+                                <p class="">60% Cotton and 40% Polyester<br>Machine Wash</p>
+                            </li>
+                        </ul>
+                </div>
+                <div class="pin_check my-3" style="background-color: white;">
+                    <div class="address_head rounded" style="width: 100%; display: flex; flex-direction: column; justify-content: flex-start; padding: 10px;">
+                        <div class="heading">
+                            <p class="display-7" style="color: green; font-weight: 500;">Check Your Address For Delivery</p>
+                            <form action="#" class="d-flex">
+                                <input type="number" maxlength="4" minlength="4" class="form-control" style="margin-right:5px;" placeholder="Enter Pin code">
+                                <button type="submit" class="btn btn-outline-success" style="color: green;">Check</button>
+                            </form>
+                        </div>
+            
+                    </div>
+                </div>
+                <div class="add_whish">
+                    <div class="d-flex justify-content-evenly py-4 px-4 " style="background-color: white; margin-bottom: 10px;">
+                        <div class="">
+                            <button class="btn btn-outline-dark"><i class="fa fa-heart" ></i>  Add to Wishlist</button>
+                        </div>
+                        <div class="">
+                            <button class="btn btn-danger"><i class="fa fa-shopping-bag" ></i>  Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="" style="max-width: 1300px;">
+
+
+
+        <div class="sys my-1 mx-3">
+            <div class="heading">
+
+                <h1 class="display-4"> Featured items you may like </h1>
+            </div>
+            <div class="sys" style="overflow-x: scroll;  display: flex;">
+                {% for pro in products %}
+
+                {% if pro.trending == True %}
+                <div class=" p_card ">
+                    <div href="/product/{{pro.title}}" id="url_{{pro.sno}}"
+                        style="text-decoration: none; color: black;">
+                        <div class="product">
+                            <div class="image">
+                                <img src='/media/{{pro.poster}}' alt="" class="img-fluid" id="img_{{pro.sno}}"
+                                    style="width: 100%; height: 100%;">
+                            </div>
+                            <div class="text">
+                                <div class="d-flex" style="justify-content: space-between; align-items: center;">
+                                    <span class="display-7" id="com_{{pro.sno}}">{{pro.company}}</span>
+                                    <button class="btn add_fav" id={{pro.sno}}><i class="far fa-heart"></i></button>
+                                </div>
+                                <a href="/product/{{pro.title}}" id="url_{{pro.sno}}">
+                                    <span id="title_{{pro.sno}}">{{pro.title}}</span> <br></a>
+                                <div class="price" style="font-weight: bolder; font-size: small;">
+                                    <span>$</span> <span style="font-size: larger;"
+                                        id="price_{{pro.sno}}">{{pro.price}}</span> <span class="mx-1"
+                                        style="font-weight: lighter; color: gray;"><del
+                                            id="mrp_{{pro.sno}}">${{pro.mrp}}</del></span>
+                                    <span style="color: green;" id="off_{{pro.sno}}">{{pro.off}}% off</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+
+                {% endfor %}
+
+
+            </div>
+        </div>
+    {% endblock body %}
