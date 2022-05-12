@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
+        integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+
+    <style>
+        * {
+            margin: 0px;
+            box-sizing: border-box;
+        }
+
+        .image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .text {
+            padding: 5px 15px;
+            font-family: cursive;
+        }
+
+        .buynow {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(243, 92, 92);
+            padding: 10px 0px;
+
+        }
+
+        .left {
+            position: sticky;
+            top: 10%;
+            height: fit-content;
+
+        }
+
+        .cart_header {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0px;
+        }
+
+        .logo .image img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .progress {
+            width: 40%;
+            color: #696B79;
+            display: flex;
+            justify-content: center;
+            background: none;
+            font-size: large;
+            height: 100%;
+        }
+
+        .step {
+            display: inline-block;
+            letter-spacing: 3px;
+        }
+
+        .divider {
+            width: 10%;
+            border-top: dashed 2px rgb(44, 44, 44);
+            height: 2px;
+            margin: auto 10px;
+
+        }
+
+        .image_secure {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            color: white;
+        }
+
+        .image_secure img {
+            width: 50px;
+            height: 50px;
+            margin: 0px 5px 0px 0px;
+        }
+
+        .step-active {
+            color: #20BD99;
+            border-bottom: 2px solid #20BD99;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        .form-group input {
+            margin: 5px 0px 5px 0px;
+        }
+
+        .form_pad {
+            padding: 10px 0px;
+        }
+
+        .add_address_btn {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            padding: 20px 10px;
+            margin: 10px 0px;
+            border: 2px dashed lightgray;
+            border-radius: 5px;
+            background: none;
+            outline: none;
+            cursor: pointer;
+
+        }
+
+        @media only screen and (max-width: 500px) {
+            .buynow {
+                position: fixed;
+                bottom: 0px;
+                width: 95%;
+            }
+
+            .left {
+                position: relative;
+            }
+        }
+    </style>
+    <header class="cart_header">
+        <section class="logo">
+            <div class="image">
+                <img src="/static/images/logo.png" alt="">
+            </div>
+        </section>
+        <ol class="progress">
+            <li class="step step-active">BAG</li>
+            <li class="divider"></li>
+            <li class="step">ADDRESS</li>
+            <li class="divider"></li>
+            <li class="step">PAYMENT</li>
+        </ol>
+        <section class="action">
+            <div class="image_secure">
+                <div class="imagesec">
+                    <img src="https://constant.myntassets.com/checkout/assets/img/sprite-secure.png" alt="SECURE">
+                </div>
+                <div class="secure">100% SECURE</div>
+            </div>
+        </section>
+    </header>
+
+    <div class="row" id="itemsincart" style="max-width: 1000px; margin: auto; ">
+
+        <div class="right col-sm-12 col-md-8 d-flex" id="items_cart_bag"
+            style="justify-content: center;align-items: center;flex-direction: column;margin: 10px auto;font-size: small;border-right: 2px solid lightgray;">
+            <div class="address_head rounded"
+                style="border:1px solid lightgray; width: 100%; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; padding: 10px;">
+                <div class="heading" style="
+        text-align: center;
+        /* justify-content: center; */
+    ">
+                    <p class="display-7" style="color: green; font-weight: 500;">Check Your Address For Delivery</p>
+                    <form action="#" class="d-flex">
+                        <input type="number" maxlength="4" minlength="4" class="form-control" style="margin-right:5px;"
+                            placeholder="Enter Pin code">
+                        <button type="submit" class="btn btn-outline-success" style="color: green;">Check</button>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="total_head d-flex my-2"
+                style="justify-content: space-between;align-items: center;width: 100%;border-bottom: 2px solid rgb(44, 44, 44);padding: 5px 0px;">
+                <span class="display-7" style=" font-weight: 500;">Your Cart Having : <b class="item_count">2</b>
+                    Item</span>
+                <div class="btn-group">
+                    <button class="btn btn-outline-dark">Clear All</button>
+
+                </div>
+
+            </div>
+
+
+            <div class="item_cart" style="width: 100%;">
+
+            </div>
+
+
+        </div>
+        <div class="left col-12 col-md-4 my-5">
+            <div class="items_shot"> </div>
+            <div class="sub_bill rounded"
+                style="/* border: 2px solid lightgray; *//* box-shadow: 4px 4px 4px lightgray, -4px 4px 4px lightgray; */margin: 10px auto;padding: 20px;width: 100%;">
+                <div class="labels"
+                    style="display: flex;justify-content: space-between;align-items: center;line-height: 30px;">
+                    <label for="total">Total Ammount: </label>
+                    <div class="amm"
+                        style="display: flex;align-items: center;justify-content: flex-end;min-width: 100px;">
+                        &#8377 <span id="totalprice"></span>
+                    </div>
+                </div>
+                <div class="labels"
+                    style="display: flex;justify-content: space-between;align-items: center;line-height: 30px;">
+                    <label for="discount">Total Discount: </label>
+                    <div class="amm"
+                        style="display: flex;align-items: center;justify-content: flex-end;min-width: 100px;">
+                        - &#8377 <span id="totaldiscount"></span>
+                    </div>
+                </div>
+                <div class="labels"
+                    style="display: flex;justify-content: space-between;align-items: center;line-height: 30px;">
+                    <label for="delivery">Delivery Charges: </label>
+                    <div class="amm"
+                        style="display: flex;align-items: center;justify-content: flex-end;min-width: 100px;">
+                        + &#8377<span>10</span>
+                    </div>
+                </div>
+                <div class="pay_ammount my-2 py-1" style="border-top: 3px solid green;">
+                    <div class="labels" style="display: flex; justify-content: space-between; align-items: center;">
+                        <label for="delivery">TOTAL</label>
+                        <div class="amm rounded " style="display: flex; align-items: center; justify-content: center;">
+                            <b>&#8377 <span id="payable"></spna></b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buynow " style=" margin: 0px;">
+                <form action="/pay/" method="post">
+                    <input type="hidden" id="ammount" name="amount">
+                    <input type="hidden" id="order" name="order">
+                    <button class="btn " style="border: 1px solid white ; color: white; padding: 0px 10px;"
+                    id="place_order" type="button">PLACE ORDER</button>
+                </form>
+                
+            </div>
+        </div>
+
+    </div>
+
+    <div class="credentail">
+        <input type="hidden" value="{{user}}" id="useris">
+    </div>
+    <script>
+
+        const fetch_cart = () => {
+
+
+            var cart = JSON.parse(localStorage.getItem('cart'));
+            html = "";
+            totalprice = 0;
+            payable = 0;
+            document.querySelector('.item_count').innerHTML = cart.length;
+            for (i in cart) {
+                html += `
+<div class="item row rounded my-3"
+    style="width: 100%; box-shadow: 4px 4px 4px lightgray, -4px 4px 4px lightgray; max-height: 200px; margin: 0px;">
+    
+    <div class="image col-4" style="max-height: 200px;">
+        <img src=${cart[i]["image"]} alt="" class="img-fluid">
+    </div>
+    <div class="desc col-8">
+        <div class="cancle_btn d-flex" style="align-items: center; justify-content: flex-end;">
+            <button class="btn btn-danger" onClick="btnremove(${i})" ><i class="fa fa-times" style="color:rgb(243, 92, 92) ;"></i></button>
+        </div>
+        <div class="text">
+            <span>LEVIS</span><br>
+            <span class="my-1">skinny-jeans mens </span><br>
+            <div class="select d-flex">
+                <div class="" style="width: 100%; margin: 0px 0px 3px 0px ;">
+                    <label for="Size">Size:</label>
+                    <select name="size" id="1" style="outline: none; border: none;">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div>
+                <div class="" style="width: 100%; margin: 0px 0px 3px 0px ;">
+                    <button class="btn"
+                        style="border: 1px solid rgb(243, 92, 92) ; color: rgb(243, 92, 92); padding: 0px 10px;">-</button>
+                    <span class="display-8">1</span>
+                    <button class="btn "
+                        style="border: 1px solid rgb(243, 92, 92) ; color: rgb(243, 92, 92); padding: 0px 10px;">+</button>
+                </div>
+            </div>
+            <div class="price" style="font-weight: bolder;">
+                <span>&#8377</span> <span>${cart[i]["price"]}</span> <span class="mx-1"
+                    style="font-weight: lighter; color: gray;"><del>${cart[i]["mrp"]}</del></span>
+                <span style="color: green;">${cart[i]["off"]}</span>
+            </div>
+
+        </div>
+        <div style="position: relative; bottom: -15%;">
+            <i class="fa fa-check" style="color: green;"></i>
+            <span>deliver within <b>1</b> week</span>
+        </div>
+    </div>
+</div>
+`
+                var price = parseInt(cart[i]["mrp"].replace("$", ""));
+                totalprice += price;
+                payable += parseInt(cart[i]["price"]);
+                console.log(totalprice);
+                console.log(payable);
+            }
+
+            totaldiscount = parseInt(totalprice) - parseInt(payable);
+
+            document.querySelector(".item_cart").innerHTML = html;
+            document.querySelector("#payable").innerHTML = payable;
+            document.querySelector("#ammount").innerHTML = payable;
+            document.querySelector("#order").innerHTML = cart;
+            document.querySelector("#totalprice").innerHTML = totalprice;
+            document.querySelector("#totaldiscount").innerHTML = totaldiscount;
+        }
+
+        const get_address = () => {
+            var user = document.querySelector("#useris").getAttribute("value");
+            if (user == "None") {
+                document.querySelector("#items_cart_bag").innerHTML = `
+                    <!-- <div class="createuserform" style="width: 100%;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="heading">
+                            Create User
+                        </div>
+                        <form id="create">
+                            <div class="form-row form_pad row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputfname">First name</label>
+                                    <input type="text" class="form-control" id="inputfname"
+                                        placeholder="Enter Your First Name" required>
+                                </div>
+                                <div class="form-group  col-md-6">
+                                    <label for="inputlname">Last Name</label>
+                                    <input type="text" class="form-control" id="inputlname"
+                                        placeholder="Enter your Last Name" required>
+                                </div>
+                            </div>
+                            <div class="form-row form_pad  row"
+                                style="justify-content: flex-end; align-items: flex-end;">
+                                <div class="form-group col-10">
+                                    <label for="phone">Phone No.</label>
+                                    <input type="number" class="form-control" id="phone"
+                                        placeholder="Enter your Phone No." required>
+                                </div>
+                                <div class="col-2">
+                                    <button class="btn btn-outline-success" type="button" id="otp"
+                                        onClick="otp_click()">
+                                        Get OTP
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group form_pad ">
+                                <label for="inputotp">OTP(one time password)</label>
+                                <input type="number" class="form-control" id="inputotp" placeholder="Enter Your OTP "
+                                    required>
+                            </div>
+                            <div class="form-group form_pad ">
+                                <label for="password">PASSWORD</label>
+                                <input type="password" minlength="6" class="form-control" id="password"
+                                    placeholder="Enter New Password Atleast 6 chars " required>
+                            </div>
+                            <div class="form-group form_pad ">
+                                <label for="inputAddress">Address 1</label>
+                                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St"
+                                    required>
+                            </div>
+                            <div class="form-group form_pad ">
+                                <label for="inputAddress2">Address 2</label>
+                                <input type="text" class="form-control" id="inputAddress2"
+                                    placeholder="Apartment, studio, or floor">
+                            </div>
+                            <div class="form-row row form_pad ">
+                                <div class="form-group col-md-8">
+                                    <label for="inputCity">City</label>
+                                    <input type="text" class="form-control" id="inputCity" placeholder="Enter Your City"
+                                        required>
+                                </div>
+                                <div class="form-group   col-md-4">
+                                    <label for="inputZip">Zip</label>
+                                    <input type="text" class="form-control" id="inputZip" placeholder="Zipcode"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="form-group form_pad ">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck">
+                                    <label class="form-check-label" for="gridCheck">
+                                        Set My Default Address
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Sign in</button>
+                        </form>
+                    </div>
+                </div>
+            </div>-->
+                    `
+
+            }
+            else {
+                document.querySelector("#items_cart_bag").innerHTML = `
+                     <div class="address rounded row" style="width: 100%; padding: 10px; border: 2px solid lightgray;">
+                <div class="col-1" style="padding: 10px 0px; text-align: center;">
+                    <input type="radio">
+                </div>
+                <div class="col-md-11 rounded cards_user " style=" padding: 10px;border-radius: 10px;">
+                    <div class="d-flex" style="justify-content: space-between;">
+                        <h5>{{user.user.username}}</h5>
+                        <div class="edit_btn">
+                            <button class="btn btn-primary">Edit</button>
+                            <button class="btn btn-danger">Remove</button>
+                        </div>
+                    </div>
+                    <div>
+                        <h5>Address</h5>
+                        <p>
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <span>
+                                GMF.Address.None
+                                <br>
+                                Gulshan-e-Iqbal, Karachi, INDIA
+                            </span>
+                        </p>
+                    </div>
+                    <div>
+                        <h5>Contact</h5>
+                        <div class="d-flex" style="justify-content: space-between;">
+                            <p>
+                                <i class="fa fa-phone" aria-hidden="true"></i>
+                                <span>
+                                    +92-9165130008
+                                </span>
+                            </p>
+                            <p>
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                <span>ojusoni@gmail.com</span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <button class="add_address_btn"  onClick="add_address_btn()">
+                <i class="fa fa-plus" style="color: #20BD99;" ></i> <span style="margin: 0px 10px; font-size: 1rem;" >Add Address</span>
+            </button>
+                    `
+            }
+        }
+
+
+const nothingincart =()=>{
+    document.getElementById('itemsincart').innerHTML = `<div class="nothing">
+            <div class="container" style="align-items: center; justify-content: center; display: flex;">
+                <div class="row" >
+                    <div class="col-md-12" style="display: flex; text-align: center;">
+                        <div class="nothing-found">
+                            <div class="nothing-found-inner">
+                                <h1>Oops!</h1>
+                                {% load static %}
+                                <img src="{% static 'images/empty-cart.png' %}" alt=""><br>
+                                <a href="/" class="btn btn-success" style="margin:30px 0px;">Continue Shopping</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+}
+
+        if (localStorage.getItem('cart') == undefined || localStorage.getItem('cart') == "[]") {
+           nothingincart()
+
+        } else {
+
+
+            const stepscontent = (step) => {
+                if (step == "BAG") {
+                    console.log(step);
+                    fetch_cart();
+                }
+                else if (step == "ADDRESS") {
+                    console.log(step);
+                    $("#items_in_cart").html = ``
+                    $("#place_order").html("CONTINUE");
+                    $("#place_order").attr("type", "submit");
+                    $("#place_order").attr("id", "order_continue");
+                    
+                    get_address();
+
+
+                }
+                else if (step == "PAYMENT") {
+
+                }
+                else if (step == "ORDER") {
+
+                }
+            }
+            stepscontent("BAG")
+            $("#place_order").click(function () {
+                stepscontent("ADDRESS")
+            });
+            $("#order_continue").click(stepscontent("PAYMENT"));
+
+
+        }
+
+
+        const add_address_btn = () => {
+            console.log("clicking the add address button");
+            document.querySelector("#items_cart_bag").innerHTML = `
+    <div class="add_address_form">
+                <form id="new_address">
+                        <div class="heading">
+                            <span style="font-size: 1.75rem;" >Contact Details</span>
+                        </div>
+                        <div class="form-group form_pad ">
+                            <label for="inputfname">Client name</label>
+                            <input type="text" class="form-control" id="inputfname"
+                                placeholder="Enter Your Name" required>
+                        </div>
+                        <div class="form-group form_pad ">
+                            <label for="phone">Phone No.</label>
+                            <input type="number" class="form-control" id="phone"
+                                placeholder="Enter your Phone No." required>
+                        </div>
+                        <hr>
+                        <div class="heading">
+                            <span style="font-size: 1.75rem;">Address Details</span>
+                        </div>
+                    <div class="form-group form_pad ">
+                        <label for="inputAddress">Address 1</label>
+                        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St"
+                            required>
+                    </div>
+                    <div class="form-group form_pad ">
+                        <label for="inputAddress2">Address 2</label>
+                        <input type="text" class="form-control" id="inputAddress2"
+                            placeholder="Apartment, studio, or floor">
+                    </div>
+                    <div class="form-row row form_pad ">
+                        <div class="form-group col-md-8">
+                            <label for="inputCity">City</label>
+                            <input type="text" class="form-control" id="inputCity" placeholder="Enter Your City"
+                                required>
+                        </div>
+                        <div class="form-group   col-md-4">
+                            <label for="inputZip">Zip</label>
+                            <input type="text" class="form-control" id="inputZip" placeholder="Zipcode"
+                                required>
+                        </div>
+                    </div>
+                    <div class="form-group form_pad ">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gridCheck">
+                            <label class="form-check-label" for="gridCheck">
+                                Set My Default Address
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Address</button>
+                </form>
+            </div>
+    `
+        };
+
+const btnremove = (id) => {
+    var items = JSON.parse(localStorage.getItem("cart"))
+    items.splice(id, 1)
+    localStorage.setItem("cart", JSON.stringify(items))
+    document.querySelector(".item_cart").innerHTML = ""
+    fetch_cart()
+    console.log(items)
+};
+        const otp_click = () => {
+
+            var phone = document.querySelector("#phone").value
+            console.log(phone);
+            console.log(phone);
+            if (phone == "" || phone.length != 10) {
+                alert("please enter the correct phone number");
+                return false;
+            }
+            $.ajax({
+                url: "/otp/",
+                type: "POST",
+                data: {
+                    phone: phone
+                },
+                success: function (data) {
+                    auth_otp = data
+                    console.log(auth_otp);
+                }
+            });
+        }
+
+
+        const send_data_pay = () => {
+            var ammount = payable;
+            var order = JSON.parse(localStorage.getItem('cart'));
+            alldata = {
+                'ammount': ammount,
+                'order': order,
+            }
+            $.ajax({
+                url: "/pay/",
+                type: "POST",
+                data: alldata,
+                success: function () {
+                    console.log("success");
+                }
+
+            });
+        }
+
+
+        $("#create").submit(function (e) {
+            e.preventDefault();
+
+            // var otp = $("#otp_num").val();
+            // if (otp != auth_otp) {
+            //     $('#dialog').dialog('open');
+            // }
+
+            var fname = $("#inputfname").val();
+            var lname = $("#inputlname").val();
+            var password = $("#password").val();
+            var phone = $("#phone").val();
+            console.log(fname)
+            console.log(password)
+            console.log(phone)
+            console.log(lname)
+            $.ajax({
+                url: "/signup/",
+                type: "POST",
+                data: {
+                    fname: fname,
+                    lname: lname,
+                    password: password,
+                    phone: phone
+                },
+                success: function (data) {
+                    window.location.replace("/")
+                }
+            });
+        })
+
+    </script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+{% endblock title %}
+{% load static %}
+{% block style %}
+
+<style>
+    .image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    .text {
+        padding: 5px 15px;
+        font-family: cursive;
+    }
+
+    .check_filter {
+        align-items: flex-start;
+        padding: 0px 30px;
+
+    }
+
+    .filter_sidebar {
+        width: 280px;
+        position: sticky;
+        top: 60px;
+        display: flex;
+    }
+    .item{
+        border: 1px solid lightgray;
+        padding: 0px;
+    }
+    .item_img{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .img_item{
+        width: 100%;
+        background-size: cover ;
+        height: 300px;
+        
+    }
+    .item_removebtn{
+        position: relative;
+        height: 100%;
+        width: 100%;
+        top: 0%;
+    }
+    .item_removebtn button{
+    outline: none;
+    border: none;
+    float: right;
+    margin: 10px;
+    background: #ffffff6e;
+    font-size: larger;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    }
+    .item_info{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .nothingincart{
+        display: flex;
+        justify-content: center;
+        align-items:center;
+        flex-direction: column;
+
+    }
+    .nothingincart img{
+        max-width:300px;
+    }
+
+    @media only screen and (max-width:500px) {
+        .filter_sidebar {
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            display: none;
+            overflow-y: scroll;
+            z-index: 10;
+        }
+    }
+</style>
+
+
+{% endblock style %}
+
+
+{% block body %}
+
+
+    <div class="main">
+
+
+        <div class="my-3">
+            <h3 class="mx-3"><i class="fa fa-heart " style="color: coral;"></i> FAVORITE ITEMS</h3>
+        </div>
+        <div class="items row">
+
+        </div>
+    </div>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Select Size</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body sizes_body">
+              <div class="sizes"></div>
+              <div class="selected">
+                  <h6>
+                      Selected: <span class="selected_size"></span>
+                  </h6>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="add_cart">Move To Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endblock body %}
+
+
+
+
+
+    {% block js %}
+
+    <script>
+        var fav = JSON.parse(localStorage.getItem('fav'));
+        
+const btnremove = (id) => {
+    var items = JSON.parse(localStorage.getItem("fav"))
+    items.splice(id, 1)
+    localStorage.setItem("fav", JSON.stringify(items))
+    document.querySelector(".items").innerHTML = ""
+    fetch_items()
+    console.log(items)
+};
+    const fetch_items =()=>{
+        var fav = JSON.parse(localStorage.getItem('fav'));
+
+        if (fav == null || fav == '[]' || fav == "") {
+            $(".items").html(`<div class='nothingincart'>
+            <img src="{% static 'images/empty-cart.png' %}" >
+            <a href="/" ><button class="btn btn-success" style="margin:30px 0px">Continue Shopping</button></a>
+            </div>`);
+        }
+        
+        else {
+            console.log("items fecting function is running");
+            for (var i in fav) {
+                console.log(i)
+                $(".items").append(`
+                
+            <div class="item col-6 col-md-4 col-lg-2 ">
+                <div class="item_img">
+                    <div class="img_item" style="background-image: url(${fav[i].image});">
+                        <div class="item_removebtn">
+                            <button onClick="btnremove(${i})" style="background-color: none; outline:none; border: none;" class="btnremove" id=${i}><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="item_info">
+                    <div class="item_name">
+                        <div class="dispaly6" style="
+                font-size: large;
+                font-weight: bolder;
+            ">
+                            ${fav[i].title}
+                        </div>
+                    </div>
+                    <div class="item_price" style="
+                font-size: large;
+                font-weight: bold;
+            ">
+                        ₹ ${fav[i].price}
+                    </div>
+                    <div class="item_movetoccart" style="
+                /* background: #ff4d4d; */
+                width: 100%;
+                text-align: center;
+            ">              <input type="hidden" id="sizes_${i}" value="${fav[i].sizes}" />
+                        <button type="button" class="btn btn-primary btnsize" data-bs-toggle="modal"  data-bs-target="#exampleModal" style="background: white;border-radius: 5px;border: 2px solid;outline: none;color: #ff4d4d;margin: 10px;padding: 5px 20px;font-weight: bold;font-size: larger;" id=${i} onclick=btnsize(${i}) >Move To Cart</button>
+                    </div>
+                </div>
+            </div>
+
+                `
+                )
+            };
+        }
+    }
+$(window).on('load', function () {
+    
+    fetch_items()
+
+
+        if ($(window).width() <= 500) {
+            $("#filter_toggle_btn").show()
+        }
+        else {
+            $("#filter_toggle_btn").hide()
+        }
+        $("#filter_toggle_btn").click(function () {
+            $("#filter_sidebar").toggle();
+            if ($("#filter_logo").hasClass("fa-filter")) {
+                $("#filter_logo").removeClass("fa-filter");
+                $("#filter_logo").addClass("fa-times");
+            }
+            else {
+                $("#filter_logo").removeClass("fa-times");
+                $("#filter_logo").addClass("fa-filter");
+            }
+        })
+
+    })
+
+
+var btnsize = (id)=>{
+    var sizes = $("#sizes_"+id).val().split(",")
+    var html = ""
+    for (let i = 0; i < sizes.length; i++) {
+        html = html + `
+        <button onclick="select_size_btn('${sizes[i]}', ${id})" class="size_btn_${id}" style="height:50px; width:50px; border-radius:500px; border:2px solid red" background:none; >${sizes[i]}</button>
+        `
+    }
+    $(".sizes").html(html)
+    html=""
+    sizes = []
+    $(".selected_size").html("")
+}
+
+function select_size_btn(a, b){
+    $(".selected_size").html(a)
+    console.log(b);
+    console.log(fav[b]);
+    fav[b].size = a
+    $("#add_cart").attr("onClick", `movetocart(${b})`)
+}
+
+const movetocart = (b) => {
+    if($(".selected_size").html() != ""){
+        var items = JSON.parse(localStorage.getItem("fav"))
+        if (localStorage.getItem("cart") == undefined) {
+            var cart = []
+        }else{
+            var cart = JSON.parse(localStorage.getItem("cart"))
+        }
+        console.log(cart);
+        cart.push(items[b]);
+        localStorage.setItem("cart", JSON.stringify(cart))
+        items.splice(b, 1)
+        localStorage.setItem("fav", JSON.stringify(items))
+        document.querySelector(".items").innerHTML = ""
+    fetch_items()
+    }
+    else{
+        alert("Please select size")
+    }
+}
+
+
+
+    </script>
+
+
+    {% endblock js %} 

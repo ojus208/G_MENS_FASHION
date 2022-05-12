@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+Gangber Mens Fashion - Search
+
+{% endblock title %}
+
+{% block style %}
+<style>
+  .not_found{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 10px;
+    flex-direction: column;
+  }
+  .not_found img{
+    width: 300px;
+  }
+   @media only screen and (max-width: 500px){
+       .product{
+           width: auto;
+       }
+   }
+</style>
+{% endblock style %}    
+
+
+{% block body %}
+
+
+{% if products|length == 0 %}
+
+<div class="not_found">
+   <h5>NO Results For Your Search</h5>
+   <img src="https://media.istockphoto.com/vectors/file-not-found-missing-result-502-or-404-error-concept-vector-vector-id1090952658?k=20&m=1090952658&s=612x612&w=0&h=4Pi9fid68IHXI_ffu6tXr8heg7aldS0eaG6ZjIzYdfI=" alt="">
+</div>
+
+
+{% else %}
+<div class="row">
+{% for pro in products %}
+
+    
+    <div class="col-6 col-md-3 col-lg-1">
+        <div class=" p_card ">
+            <div href="/product/{{pro.title}}" id="url_{{pro.sno}}" style="text-decoration: none; color: black;">
+              <div class="product">
+                <a  href="/product/{{pro.title}}"  class="image">
+                  <img src='/media/{{pro.poster}}' alt="" class="img-fluid" id="img_{{pro.sno}}"
+                    style="width: 100%; height: 100%;">
+                </a>
+                <div class="text">
+                  <div class="d-flex" style="justify-content: space-between; align-items: center;">
+                    <span class="display-7" id="com_{{pro.sno}}">{{pro.company}}</span>
+                    <button class="btn add_fav" id={{pro.sno}} onclick="add_fav(id)"><i class="far fa-heart"></i></button>
+                  {% for size in pro.size.all %}
+                    <div  style="display: none;" class="sizes_{{pro.sno}}">{{size.size.size}}</div>
+                  {% endfor %}
+                  </div>
+                  <a href="/product/{{pro.title}}" id="url_{{pro.sno}}">
+                    <span id="title_{{pro.sno}}">{{pro.title|truncatechars:20}}</span> <br></a>
+                  <div class="price" style="font-weight: bolder; font-size: small;">
+                    <span>$</span> <span style="font-size: larger;" id="price_{{pro.sno}}">{{pro.price}}</span> <span
+                      class="mx-1" style="font-weight: lighter; color: gray;"><del
+                        id="mrp_{{pro.sno}}">${{pro.mrp}}</del></span>
+                    <span style="color: green;" id="off_{{pro.sno}}">{{pro.off}}% off</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+    {% endfor %}
+{% endif %}
+    
+</div>
+
+
+{% endblock body %}

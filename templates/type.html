@@ -1,0 +1,343 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+category
+{% endblock title %}
+
+
+{% block style %}
+<style>
+  .product {
+    border: 0.5px solid lightgray;
+  }
+
+
+  .results {
+    /* padding: 10px 0px; */
+    max-width: 1300px;
+    margin: auto;
+  }
+
+  .image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .p_card {
+    padding: 0px 3px;
+  }
+
+  .text {
+    padding: 5px 15px;
+  }
+
+
+
+  .pos {
+    height: 400px;
+    width: 100%;
+    filter: blur(8px);
+    -webkit-filter: blur(4px);
+  }
+
+  .text_img {
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    font-weight: bold;
+    border: 3px solid #f1f1f1;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 80%;
+    padding: 20px;
+    text-align: center;
+    font-size: 40px;
+  }
+
+  .type_page_head {
+    padding: 5px 20px;
+    margin: 5px 0px;
+    border: 1px solid lightgray;
+
+  }
+
+  .nav_bar {
+    display: flex;
+    justify-content: space-between;
+    background: #ff4d4d;
+    padding: 10px;
+    color: white;
+    flex: 1 1 auto;
+
+
+
+  }
+
+  @media only screen and (max-width: 500px) {
+    .pos {
+      height: 200px;
+    }
+
+    .text_img {
+      font-size: 30px;
+      top: 20%;
+    }
+
+    .filter_sidebar {
+      position: fixed;
+      height: 100%;
+      width: 100%;
+      display: none;
+      overflow-y: scroll;
+      z-index: 10;
+    }
+  }
+</style>
+{% endblock style %}
+
+{% block body %}
+
+{% if category.poster %}
+
+{% comment %} <div class="oth_cat" style="width: 100%;">
+  <!-- main category pngimagesfre -->
+  <div class="poster">
+    <div class="pos img-fluid" style="
+       background: url(/media/{{category.poster}}) no-repeat center center;
+       background-size:cover;
+      ">
+    </div>
+    <div class="text_img">
+      <p> {{category.title}} </p>
+    </div>
+  </div> {% endcomment %}
+  {% endif %}
+  <!-- <form action="/filter/" method="get">
+    <div class="d-flex">
+      <div class="flex-column bg-light filter_sidebar" id="filter_sidebar">
+        <div class="" style="max-width: 280px; margin: auto; overflow-y: scroll; position: relative;">
+          <div class="" style=" padding: 5px; margin: 10px; border: 1px solid;">
+            <span style="color: gray;">SORT : </span>
+            <select name="sort" id="sort" style="border: none;">
+              <option value="recomamded">Recomamded</option>
+              <option value="low-high">Price Range Low To High</option>
+              <option value="high-low">Price Range High To low </option>
+              <option value="new">What's New</option>
+              <option value="sales">Popularity</option>
+            </select>
+          </div>
+          <div class="d-flex justify-content-between" style=" align-items: center; padding: 10px;">
+
+
+            <span class="title" style="font-weight: bold;">FILTER</span>
+            <div class="actions_fil" style=" display: flex; font-size: small; align-items: baseline; ">
+              <a href="" style=" color: #ff4343; font-weight: bold; ">Clear All</a>
+              <button class="btn btn-primary" style=" font-size: small; padding: 5px 10px; margin: 0px 5px;" type="submit">Apply
+                Filter</button>
+            </div>
+          </div>
+          <hr>
+          <div class="filter_action">
+            <ul class="nav nav-pills flex-column mb-auto px-2">
+              <a href="" class="nav-link active"> <i class="fa fa-tags"></i> Category</a>
+              <ul class="nav flex-column mb-auto check_filter">
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below5001" name="below-5001">
+                  <label for="below5001">Shorts</label><br>
+                </li>
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below5002" name="below-5002">
+                  <label for="below5002">Jeans</label><br>
+                </li>
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below5003" name="below-5003">
+                  <label for="below5003">Shirts</label><br>
+                </li>
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below5004" name="below-5004">
+                  <label for="below5004">T-Shirts</label><br>
+                </li>
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below5005" name="below-5005">
+                  <label for="below5005">Sweatshirt</label><br>
+                </li>
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below5006" name="below-5006">
+                  <label for="below5006">Hoddie</label><br>
+                </li>
+
+              </ul>
+            </ul>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto px-2">
+              <a href="" class="nav-link active"> <i class="fa fa-tags"></i> Price</a>
+              <ul class="nav flex-column mb-auto check_filter">
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below500" name="below-500">
+                  <label for="below500">Below 500</label><br>
+                </li>
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below500" name="below-500">
+                  <label for="below500">Price Range 500-1000</label><br>
+                </li>
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below500" name="below-500">
+                  <label for="below500">Price Range 1000-1500</label><br>
+                </li>
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below500" name="below-500">
+                  <label for="below500">Price Range 1500-2000</label><br>
+                </li>
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below500" name="below-500">
+                  <label for="below500">Price Range 2000-3000</label><br>
+                </li>
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below500" name="below-500">
+                  <label for="below500">Above 3000</label><br>
+                </li>
+
+              </ul>
+            </ul>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto px-2">
+              <a href="" class="nav-link active"> <i class="fa fa-tags"></i> Brands </a>
+              <ul class="nav flex-column mb-auto check_filter">
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below500" name="below-500">
+                  <label for="below500">MUFTI</label><br>
+                </li>
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below500" name="below-500">
+                  <label for="below500">KILLER</label><br>
+                </li>
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below500" name="below-500">
+                  <label for="below500">Peter England</label><br>
+                </li>
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below500" name="below-500">
+                  <label for="below500">UCB</label><br>
+                </li>
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below500" name="below-500">
+                  <label for="below500">Roadstar</label><br>
+                </li>
+                <li class="nav-item my-1">
+                  <input type="checkbox" id="below500" name="below-500">
+                  <label for="below500">DENIM</label><br>
+                </li>
+
+              </ul>
+            </ul>
+          </div>
+          <hr>
+        </div>
+      </div>
+  </form> -->
+
+
+  <div style="width: 100%;">
+    {% if category.image %}
+    <div>
+      <div class="type_page_head">
+        <h1>{{ category.name|upper }}</h1>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="row">
+      {% for pro in products %}
+      
+          
+          <div class="col-6 col-md-4 col-lg-2">
+              <div class=" p_card ">
+                  <div href="/product/{{pro.title}}" id="url_{{pro.sno}}" style="text-decoration: none; color: black;">
+                    <div class="product">
+                      <a  href="/product/{{pro.title}}"  class="image">
+                        <img src='/media/{{pro.poster}}' alt="" class="img-fluid" id="img_{{pro.sno}}"
+                          style="width: 100%; height: 100%;">
+                      </a>
+                      <div class="text">
+                        <div class="d-flex" style="justify-content: space-between; align-items: center;">
+                          <span class="display-7" id="com_{{pro.sno}}">{{pro.company}}</span>
+                          <button class="btn add_fav" id={{pro.sno}} onclick="add_fav(id)"><i class="far fa-heart"></i></button>
+                        {% for size in pro.size.all %}
+                          <div  style="display: none;" class="sizes_{{pro.sno}}">{{size.size.size}}</div>
+                        {% endfor %}
+                        </div>
+                        <a href="/product/{{pro.title}}" id="url_{{pro.sno}}">
+                          <span id="title_{{pro.sno}}">{{pro.title|truncatechars:20}}</span> <br></a>
+                        <div class="price" style="font-weight: bolder; font-size: small;">
+                          <span>$</span> <span style="font-size: larger;" id="price_{{pro.sno}}">{{pro.price}}</span> <span
+                            class="mx-1" style="font-weight: lighter; color: gray;"><del
+                              id="mrp_{{pro.sno}}">${{pro.mrp}}</del></span>
+                          <span style="color: green;" id="off_{{pro.sno}}">{{pro.off}}% off</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+          </div>
+          {% endfor %}
+
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+{% endblock body %}
+
+
+
+{% block js %}
+
+<script>
+  $(document).ready(function () {
+
+    if ($(window).width() <= 500) {
+      $("#hide_side").hide()
+
+    }
+
+    $("#hide").click(function () {
+      $("#hide_side").toggle()
+
+    })
+
+  })
+  if ($(window).width() <= 500) {
+    $("#filter_toggle_btn").show()
+  }
+  else {
+    $("#filter_toggle_btn").hide()
+  }
+  $("#filter_toggle_btn").click(function () {
+    $("#filter_sidebar").toggle();
+    if ($("#filter_logo").hasClass("fa-filter")) {
+      $("#filter_logo").removeClass("fa-filter");
+      $("#filter_logo").addClass("fa-times");
+    }
+    else {
+      $("#filter_logo").removeClass("fa-times");
+      $("#filter_logo").addClass("fa-filter");
+    }
+  })
+
+
+</script>
+
+
+
+
+{% endblock js %}
